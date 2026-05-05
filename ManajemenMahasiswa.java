@@ -13,156 +13,112 @@ import java.util.Scanner;
  * Kelas = 2B
  * Prodi = Teknik Informatika
  */
-public class ManajemenMahasiswa {
-    public static void main(String[] args) {
+public class ManaJemenMahasiswa {
+    public static void main(String[] args){
+    Scanner input = new Scanner (System.in);
+    
+    Mahasiswa[] daftarMahasiswa = new Mahasiswa[10];
+    
+    int jumlah = 0;
+    
+    int pilihan;
+    
+     do {
+         System.out.println("\n===== MENU =====");
+         System.out.println("1. Tambah Mahasiswa");
+         System.out.println("2. Tampilkan semua mahasiswa");
+         System.out.println("3. Cari Mahasiswa Berdasarkan NIM");
+         System.out.println("4. Tampilkan Mahasiswa Lulus (ipk >= 3.0)");
+         System.out.println("5. Naikan Semester Semua Mahasiswa");
+         System.out.println("6. Keluar");
+         System.out.print("pilih : ");
+         pilihan = input.nextInt();
+         input.nextLine();
+         
+         switch (pilihan) {
+             case 1 -> {
+                 if (jumlah < 10){
+                  Mahasiswa mhs = new Mahasiswa();
         
-        Mahasiswa[] daftarMhs = new Mahasiswa[10];
+        System.out.printf("%-10s: ", "NIM");
+        String nim = input.nextLine();
+        if (nim.trim().isEmpty()) {
+            System.out.println("NIM tidak boleh kosong!");
+            break;
+        }
+        mhs.setNim(nim);
         
-        int counter = 0, pilihan;
-        // input user
-        Scanner sc = new Scanner(System.in);
-        boolean lapor = false;
-
-        // bagian menu
-        do {            
-            System.out.println("==Menu Manajemen Mahasiswa==");
-            System.out.println("1. Tambah Mahasiswa ");
-            System.out.println("2. Tampilkan Semua Mahasiswa");
-            System.out.println("3. Cari Mahasiswa Berdasarkan NIM");
-            System.out.println("4. Tampilkan Mahasiswa yang Lulus");
-            System.out.println("5. Naikkan Semester Semua Mahasiswa");
-            System.out.println("6. Keluar");
-            System.out.print("Masukkan pilihan : ");
-            pilihan = sc.nextInt();
-            //supaya enter tidak menjalankan kode berikutnya
-            sc.nextLine();
-
-            switch (pilihan) {
-                case 1 -> {
-                    // menambah mahasiswa
-                    System.out.println("\n==Tambah Mahasiswa==");
-
-                    if (counter >= 10) {
-                        System.out.println("- Maaf data sudah mencapai limit (Maks 10)");
-                    } else {
-                        //input data mahasiswa untuk memanggil setter (encapsulasi)
-                        System.out.print("Masukkan NIM : ");
-                        String setNim = sc.nextLine();
-
-                        if (setNim.isEmpty()) {
-                            System.out.println("invalid");
-                        } else {
-                            System.out.print("Masukkan nama : ");
-                            String setNama = sc.nextLine();
-
-                            System.out.print("Masukkan jurusan : ");
-                            String setJurusan = sc.nextLine();
-
-                            System.out.print("Masukkan semester : ");
-                            int setSemester = sc.nextInt();
-                            sc.nextLine();
-                            
-                            if (setSemester < 0 || setSemester > 8) {
-                                System.out.println("Invalid");
-                            } else {
-                                System.out.print("Masukkan IPK : ");
-                                double setIPK = sc.nextDouble();
-                                sc.nextLine();
-                                
-                                if (setIPK < 0.0 || setIPK > 4.0) {
-                                    System.out.println("invalid");
-                                } else {
-                                  
-                                    daftarMhs[counter] = new Mahasiswa(setNim, setNama, setJurusan, setSemester, setIPK);
-                                    
-                                    counter++;
-                                    System.out.println("- Data mahasiswa berhasil ditambahkan\n");
-                                }
-                            }
-                        }
-                    }
-                }
-                case 2 -> {
-                    // menampilkan semua mahasiswa
-                    if (counter == 0) {
-                        System.out.println("\nMaaf belum ada data\n");
-                    } else {
-                        
-                        for (Mahasiswa lihatMhs : daftarMhs) {
-                            
-                            if (lihatMhs !=null) {
-                                System.out.println("");
-                                lihatMhs.tampilData();
-                                System.out.println("");
-                                lapor = true;
-                            }
-                        }
-                        if (!lapor) {
-                            System.out.println("- tidak ditemukan data yang anda cari\n");
-                        }
-                    }
-                }
-                case 3 -> {
-                    // mencari mahasiswa berdasarkan nim
-                    if (counter == 0) {
-                        System.out.println("\nMaaf belum ada data\n");
-                    } else {
-                        System.out.println("\n==Cari Mahasiswa Berdasarkan NIM==");
-                        System.out.print("Masukkan NIM : ");
-                        String nimTemp = sc.nextLine();
-                        
-                        for (int i = 0; i < counter; i++) {
-                            
-                            if (daftarMhs[i].getNim().equals(nimTemp)) {
-                                daftarMhs[i].tampilData();
-                                lapor = true;
-                                System.out.println("");
-                            } 
-                        }
-                        if (!lapor) {
-                            System.out.println("- Maaf data yang anda cari tidak ada\n");
-                        }
-                    }
-                }
-                case 4 -> {
-                    // menampilkan mahasiswa lulus
-                    if (counter == 0) {
-                        System.out.println("\nMaaf belum ada data\n");
-                    } else {
-                        for (int y = 0; y < counter; y++) {
-                            //memanggil method lulus
-                            if (daftarMhs[y].isLulus()) {
-                                System.out.println("");
-                                System.out.println("==Data Mahasiswa yang Lulus==");
-                                daftarMhs[y].tampilData();
-                                System.out.println("");
-                                lapor = true;
-                            } 
-                        }
-                        if (!lapor) {
-                            System.out.println("- Maaf data yang anda cari tidak ada\n");
-                        }
-                    }
-                }
-                case 5 -> {
-                    // menaikkan semester semua mahasiswa
-                    if (counter == 0) {
-                        System.out.println("\nMaaf belum ada data\n");
-                    } else {
-                        for (int j = 0; j < counter; j++) {
-                            // memanggil method getSemester
-                            if (daftarMhs[j].getSemester() < 8) {
-                                daftarMhs[j].naikSemester();
-                                System.out.println("\n- Semester mahasiswa berhasil dinaikkan\n");
-                            }
-                        }
-                    }
-                }
-                case 6 -> //keluar
-                    System.out.println("\nTerima kasih telah menggunakan program kami\n");
-                default -> throw new AssertionError();
+        System.out.printf("%-10s: ", "NAMA");
+        mhs.setNama(input.nextLine());
+        
+        System.out.printf("%-10s: ", "JURUSAN");
+        mhs.setJurusan(input.nextLine());
+        
+        System.out.printf("%-10s: ", "SEMESTER");
+        int semester = input.nextInt();
+        mhs.setSemester(semester);
+        
+        System.out.printf("%-10s: ", "IPK");
+        double ipk = input.nextDouble();
+        mhs.setIpk(ipk);
+        
+        input.nextLine(); // bersihkan newline setelah nextDouble
+        
+        daftarMahasiswa[jumlah] = mhs;
+        jumlah++;
+        System.out.println("Data Berhasil Ditambahkan!");
+    } else {
+        System.out.println("Data Penuh!");
+    }
+    break;
             }
-            // ulangi program dalam do selama input bukan 6
-        } while (pilihan !=6);
+                     
+             case 2 -> {
+                 if (jumlah == 0){
+                     System.out.println("Belum Ada Data! ");
+                 }else{
+                     for (int i = 0; i < jumlah; i++){
+                         daftarMahasiswa[i].tampilData();
+                     }
+                 }
+            }
+             
+        case 3 -> {
+            System.out.print("Masukkan NIM yang dicari: ");
+            String cariNim = input.nextLine();
+            boolean ditemukan = false;
+            
+            for (int i = 0; i < jumlah; i++){
+                if (daftarMahasiswa[i].getNim().equals(cariNim)){
+                    daftarMahasiswa[i].tampilData();
+                    ditemukan = true;
+                }
+            }
+            if (!ditemukan) {
+                System.out.println("Mahasiswa tidak ditemukan! ");
+            }   }
+             
+        case 4 -> {
+            System.out.println("Mahasiswa Lulus (IPK >= 3.0):");
+            for (int i = 0; i < jumlah; i++) {
+                if (daftarMahasiswa[i].getIpk() >= 3.0) {
+                    daftarMahasiswa[i].tampilData();
+                    
+                }
+            }      }
+        
+    case 5 -> {
+        for (int i = 0; i < jumlah; i++) {
+            daftarMahasiswa[i].naikSemester();
+        }
+        System.out.println("Semua mahasiswa naik semester!");
+            }
+        
+    case 6 -> System.out.println("Terima kasih!");
+         
+         default -> System.out.println("Pilihan tidak valid!");
+}
+
+        }while (pilihan != 6);
     }
 }
